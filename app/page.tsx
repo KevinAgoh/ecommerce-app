@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   );
 
   const categories = data?.categories;
-
+console.log(data)
   return (
     <div>
       <Head>
