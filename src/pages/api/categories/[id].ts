@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../lib/prisma";
 import {
   TApiErrorResp,
   TApiSingleCategoryWithProductResp
 } from "../../../types";
+import { prisma } from "@/src/lib/prisma";
 
 const handler = async (
   req: NextApiRequest,

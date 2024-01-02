@@ -2,8 +2,7 @@
 
 import Navbar from "@/app/components/Navbar";
 import ProductGrid from "@/app/components/ProductGrid";
-import Skelton from "@/app/components/Skeleton";
-import { useQuery } from "@tanstack/react-query";
+import Skelton from "@/app/components/Skeleton";import { useQuery } from "@tanstack/react-query";
 import { NextPage } from "next";
 import Head from "next/head";
 
@@ -22,9 +21,7 @@ const Home: NextPage = () => {
     queryKey: ["AllCategoreiesWithProducts"], queryFn: getAllCategories
   }
   );
-
   const categories = data?.categories;
-console.log(data)
   return (
     <div>
       <Head>
