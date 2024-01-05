@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TApiAllCategoriesResp } from '../../src/types';
 import Image from 'next/image';
+import { AiOutlineRight } from 'react-icons/ai';
 
 interface IProductGrid extends TApiAllCategoriesResp {
   showLink: boolean;
@@ -26,29 +27,30 @@ const ProductGrid = (props: IProductGrid) => {
     <div className='bg-white'>
       {categories.map(category => (
         <div className='mt-12  p-6' key={category.name}>
-          <div className='flex flex-row justify-between'>
-            <span className='inline-flex items-center rounded-md bg-sky-800 px-8 py-2 text-md font-medium text-white'>
+          <div className='flex flex-row justify-between items-center'>
+            <span className='shadow inline-flex items-center rounded-md bg-amber-600 px-8 py-2 text-md font-medium text-white'>
               {category.name}
             </span>
             {showLink && (
               <Link href={`/categories/${category.id}`}>
-                <p className='flex flex-row gap-2 underline hover:cursor-pointer items-center'>
+                <p className='text-amber-600 no-underline flex flex-row gap-2 hover:cursor-pointer items-center'>
                   View More
-                  {/* <AiOutlineRight /> */}
+                  <AiOutlineRight />
                 </p>
               </Link>
             )}
           </div>
-          <div className='mt-6  grid grid-cols-1 gap-y-10 gap-x-6 xl:gap-x-8 sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 xl:gap-x-8 sm:grid-cols-2 lg:grid-cols-4'>
             {category?.products.map(product => (
-              <div
-                className='p-6 group rounded-lg border border-gray-200 bg-neutral-200'
+              <Link
+                className='p-6 group rounded-lg bg-white shadow-[0_3px_8px_#0000001f]'
                 key={product.title}
+                href={`/products/${product.title.replaceAll(' ', '_')}`}
               >
-                <div className='min-h-80 w-full overflow-hidden rounded-md group-hover:opacity-75 lg:aspect-none lg:h-80'>
+                <div className='h-[75%] w-full overflow-hidden rounded-md group-hover:opacity-75 lg:aspect-none lg:h-80'>
                   <Image
                     priority={true}
-                    // layout="responsive"
+                    layout='responsive'
                     width='25'
                     height='25'
                     src={`${product.image}`}
@@ -60,18 +62,9 @@ const ProductGrid = (props: IProductGrid) => {
                   <h3 className='text-sm font-medium text-gray-900'>
                     {product.title}
                   </h3>
-                  <p className='mt-1 text-sm text-gray-500'>{product.price}</p>
+                  <p className='mt-1 text-sm text-gray-500'>{product.price}€</p>
                 </div>
-                <div className='mt-6'>
-                  <Link
-                    href={`/products/${product.title.replaceAll(' ', '_')}`}
-                  >
-                    <p className='relative flex items-center justify-center rounded-md border border-transparent bg-sky-800 py-2 px-8 text-sm font-medium text-white hover:bg-sky-900 hover:cursor-pointer'>
-                      View More Details
-                    </p>
-                  </Link>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
           {!showLink && (
@@ -98,7 +91,7 @@ const ProductGrid = (props: IProductGrid) => {
             </div>
           )}
           {showLink && (
-            <div className='w-full border-b border-gray-300 mt-24' />
+            <div className='w-full border-b-2 border-gray-300 mt-24' />
           )}
         </div>
       ))}

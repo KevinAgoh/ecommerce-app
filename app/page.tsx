@@ -24,15 +24,15 @@ const Home: NextPage = () => {
   });
   const categories = data?.categories;
   return (
-    <div>
+    <>
       <Head>
         <title>All Products</title>
         <meta name='description' content='All Products' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Navbar />
       <main className='container mx-auto'>
-        <Navbar />
         {isLoading ? (
           <Skelton />
         ) : (
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           </>
         )}
       </main>
-    </div>
+    </>
   );
 };
 
