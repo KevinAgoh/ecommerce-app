@@ -1,4 +1,3 @@
-'use-client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { TApiErrorResp, TApiSingleProductResp } from '../../../types';
 import { prisma } from '@/src/lib/prisma';

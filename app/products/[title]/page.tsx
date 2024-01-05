@@ -1,10 +1,11 @@
+'use client';
+
 import Navbar from '@/app/components/Navbar';
 import Skelton from '@/app/components/Skeleton';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
 import NextImage from 'next/image';
-import router from 'next/router';
 
 const stripePromiseclientSide = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -12,11 +13,12 @@ const stripePromiseclientSide = loadStripe(
 
 const SingleProduct = () => {
   let pathmane = window.location.pathname;
-  const productTitle = pathmane.replace('/product/', '').replace(' ', '_');
+  const productTitle = pathmane.replace('/products/', '');
+  const requestProductTitle = productTitle.replaceAll('_', ' ');
 
   const getSingleProduct = async () => {
     try {
-      const respJSON = await fetch(`/api/products/${productTitle}`);
+      const respJSON = await fetch(`/api/products/${requestProductTitle}`);
       const resp = await respJSON.json();
       return resp;
     } catch (error) {
@@ -24,7 +26,7 @@ const SingleProduct = () => {
     }
   };
 
-  const { mutate, isLoading: mutationIsLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (body: any) => {
       try {
         const respJSON = await fetch('/api/create-checkout-session', {
@@ -47,10 +49,8 @@ const SingleProduct = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: [queryKey],
-    queryFn: getSingleProduct
-    // {
-    //   enabled: !!router?.query?.title
-    // }
+    queryFn: getSingleProduct,
+    enabled: !!productTitle
   });
 
   const product = data?.product;
@@ -100,7 +100,7 @@ const SingleProduct = () => {
                           price: product.price
                         })
                       }
-                      disabled={mutationIsLoading}
+                      disabled={isPending}
                       type='button'
                       className='inline-flex items-center rounded-md border border-transparent bg-sky-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-900  mt-4'
                     >

@@ -63,7 +63,9 @@ const ProductGrid = (props: IProductGrid) => {
                   <p className='mt-1 text-sm text-gray-500'>{product.price}</p>
                 </div>
                 <div className='mt-6'>
-                  <Link href={`/product/${product.title}`}>
+                  <Link
+                    href={`/products/${product.title.replaceAll(' ', '_')}`}
+                  >
                     <p className='relative flex items-center justify-center rounded-md border border-transparent bg-sky-800 py-2 px-8 text-sm font-medium text-white hover:bg-sky-900 hover:cursor-pointer'>
                       View More Details
                     </p>
