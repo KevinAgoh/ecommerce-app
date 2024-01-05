@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { TApiErrorResp, TApiSingleProductResp } from "../../../types";
-import { prisma } from "@/src/lib/prisma";
+'use-client';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { TApiErrorResp, TApiSingleProductResp } from '../../../types';
+import { prisma } from '@/src/lib/prisma';
 
 const handler = async (
   req: NextApiRequest,
@@ -10,15 +11,15 @@ const handler = async (
     const title = req.query.title as string;
     const product = await prisma.product.findUnique({
       where: {
-        title,
+        title
       },
       select: {
         title: true,
         description: true,
         price: true,
         quantity: true,
-        image: true,
-      },
+        image: true
+      }
     });
     if (!product) {
       return res.status(404).json({ message: `Product not found` });
@@ -26,7 +27,7 @@ const handler = async (
     return res.status(200).json({ product });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong!! Please try again after sometime",
+      message: 'Something went wrong!! Please try again after sometime'
     });
   }
 };

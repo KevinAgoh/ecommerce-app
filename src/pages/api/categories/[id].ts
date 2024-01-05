@@ -1,9 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import {
-  TApiErrorResp,
-  TApiSingleCategoryWithProductResp
-} from "../../../types";
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from '@/src/lib/prisma';
+import { TApiSingleCategoryWithProductResp, TApiErrorResp } from '@/src/types';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (
   req: NextApiRequest,
@@ -15,19 +12,19 @@ const handler = async (
     if (cursorId) {
       const categoriesData = await prisma.category.findUnique({
         where: {
-          id,
+          id
         },
         select: {
           id: true,
           name: true,
           products: {
             orderBy: {
-              createdAt: "desc",
+              createdAt: 'desc'
             },
             take: 12,
             skip: 1,
             cursor: {
-              id: cursorId as string,
+              id: cursorId as string
             },
             select: {
               id: true,
@@ -35,10 +32,10 @@ const handler = async (
               description: true,
               image: true,
               price: true,
-              quantity: true,
-            },
-          },
-        },
+              quantity: true
+            }
+          }
+        }
       });
 
       if (!categoriesData) {
@@ -50,21 +47,19 @@ const handler = async (
         hasMore = false;
       }
 
-      return res
-        .status(200)
-        .json({ category: { ...categoriesData, hasMore } });
+      return res.status(200).json({ category: { ...categoriesData, hasMore } });
     }
 
     const categoriesData = await prisma.category.findUnique({
       where: {
-        id,
+        id
       },
       select: {
         id: true,
         name: true,
         products: {
           orderBy: {
-            createdAt: "desc",
+            createdAt: 'desc'
           },
           take: 12,
           select: {
@@ -73,10 +68,10 @@ const handler = async (
             description: true,
             image: true,
             price: true,
-            quantity: true,
-          },
-        },
-      },
+            quantity: true
+          }
+        }
+      }
     });
     if (!categoriesData) {
       return res.status(404).json({ message: `Category not found` });
@@ -87,12 +82,10 @@ const handler = async (
       hasMore = false;
     }
 
-    return res
-      .status(200)
-      .json({ category: { ...categoriesData, hasMore } });
+    return res.status(200).json({ category: { ...categoriesData, hasMore } });
   } catch (error) {
     return res.status(500).json({
-      message: "Something went wrong!! Please try again after sometime",
+      message: 'Something went wrong!! Please try again after sometime'
     });
   }
 };
