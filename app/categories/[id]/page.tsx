@@ -8,7 +8,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
 import Head from 'next/head';
 
-export const SingleCategory: NextPage = () => {
+const Page: NextPage = () => {
   let pathmane = window.location.pathname;
   const categoryId = pathmane.replace('/categories/', '');
 
@@ -93,4 +93,4 @@ export const SingleCategory: NextPage = () => {
   );
 };
 
-export default SingleCategory;
+export default Page;
