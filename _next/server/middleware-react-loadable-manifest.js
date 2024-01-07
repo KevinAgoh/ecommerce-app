@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"../../node_modules/@tanstack/query-devtools/build/index.js -> ./Devtools/BSBCIQID.js":{"id":null,"files":[]}}';
