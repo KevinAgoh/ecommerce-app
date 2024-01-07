@@ -2,15 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 
-// export async function getServerSideProps(context) {
-//   // Fetch data from external API
-//   const res = await fetch(`https://.../data`);
-//   const data = await res.json();
-
-//   // Pass data to the page via props
-//   return { props: { data } };
-// }
-
 interface IProductProps {
   title: string;
   description: string;
