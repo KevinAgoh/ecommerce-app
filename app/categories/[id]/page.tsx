@@ -5,9 +5,10 @@ import ProductGrid from '@/app/components/ProductGrid';
 import Skelton from '@/app/components/Skeleton';
 import QueryProvider from '@/src/lib/query';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { NextPage } from 'next';
 import Head from 'next/head';
 
-export const SingleCategory = () => {
+export const SingleCategory: NextPage = () => {
   let pathmane = window.location.pathname;
   const categoryId = pathmane.replace('/categories/', '');
 
@@ -31,13 +32,14 @@ export const SingleCategory = () => {
     queryKey: [queryKey],
     queryFn: getSingleCategory,
     getNextPageParam: lastPage => lastPage?.nextCursor,
-    initialPageParam: undefined
+    initialPageParam: undefined,
+    enabled: !!categoryId
   });
 
   const allProductsWithCategory: any = {
     name: '',
     products: [],
-    hasMore: true
+    hasMore: false
   };
 
   data?.pages.map(page => {

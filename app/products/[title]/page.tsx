@@ -6,15 +6,15 @@ import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
 import NextImage from 'next/image';
+import { useParams } from 'next/navigation';
 
 const stripePromiseclientSide = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
 const SingleProduct = () => {
-  let pathmane = window.location.pathname;
-  const productTitle = pathmane.replace('/products/', '');
-  const requestProductTitle = productTitle.replaceAll('_', ' ');
+  const params = useParams();
+  const requestProductTitle = (params?.title as string).replaceAll('_', ' ');
 
   const getSingleProduct = async () => {
     try {
@@ -45,12 +45,12 @@ const SingleProduct = () => {
     }
   });
 
-  const queryKey = `singleProduct, ${productTitle}`;
+  const queryKey = `singleProduct, ${params?.title}`;
 
   const { data, isLoading } = useQuery({
     queryKey: [queryKey],
     queryFn: getSingleProduct,
-    enabled: !!productTitle
+    enabled: !!requestProductTitle
   });
 
   const product = data?.product;
@@ -71,14 +71,14 @@ const SingleProduct = () => {
             <div className='pt-6 pb-16 sm:pb-24'>
               <div className='mx-auto mt-8'>
                 <div className='flex flex-col md:flex-row gap-x-8'>
-                  <div className='min-h-80 w-full overflow-hidden rounded-md group-hover:opacity-75 lg:aspect-none lg:h-80'>
+                  <div className='min-h-80 w-full overflow-hidden rounded-2xl group-hover:opacity-75 lg:aspect-none lg:h-80 shadow-[0_3px_8px_#0000001f]'>
                     <NextImage
                       layout='responsive'
                       width='25'
                       height='25'
                       src={`${product.image}`}
                       alt={product.title}
-                      className='h-full w-full object-cover object-center lg:h-full lg:w-full'
+                      className='!h-[100%] w-full object-cover object-center lg:h-full lg:w-full'
                     />
                   </div>
                   <div className='lg:col-span-5 lg:col-start-8 mt-8 md:mt-0'>
@@ -89,7 +89,7 @@ const SingleProduct = () => {
                       {product.description}
                     </p>
                     <p className='text-xl font-normal text-gray-500 mt-4'>
-                      USD {product.price}
+                      {product.price.replace('.', ',')}€
                     </p>
                     <button
                       onClick={() =>
@@ -102,10 +102,14 @@ const SingleProduct = () => {
                       }
                       disabled={isPending}
                       type='button'
-                      className='inline-flex items-center rounded-md border border-transparent bg-sky-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-900  mt-4'
+                      className='inline-flex items-center rounded-md border border-transparent bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-900  mt-4'
                     >
                       Buy Now
                     </button>
+                    <div className='text-sm font-light text-gray-700 mt-4'>
+                      You can pay with this card number: 4242424242424242 <br />
+                      And with a random CVC !
+                    </div>
                   </div>
                 </div>
               </div>
